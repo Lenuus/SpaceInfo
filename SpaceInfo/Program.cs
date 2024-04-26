@@ -2,6 +2,8 @@ using SpaceInfo.Application;
 using Microsoft.EntityFrameworkCore;
 using SpaceInfo.Persistence;
 using SpaceInfo.Persistence.Interceptors;
+using SpaceInfo.Application.DailyInfoService;
+using SpaceInfo.Application.CacheService;
 
 
 
@@ -20,6 +22,8 @@ builder.Services.AddScoped<CreateInterceptor>();
 builder.Services.AddScoped<UpdateAuditInterceptor>();
 builder.Services.AddControllers();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddTransient<IDailyInfoService, DailyInfoService>();
+builder.Services.AddSingleton<ICacheService, InMemoryCache>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
