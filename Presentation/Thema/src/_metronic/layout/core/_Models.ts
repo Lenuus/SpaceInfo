@@ -235,7 +235,6 @@ export interface ILayoutCSSClasses {
   aside: Array<string>
   asideMenu: Array<string>
   asideToggle: Array<string>
-  sidebar: Array<string>
   toolbar: Array<string>
   toolbarContainer: Array<string>
   content: Array<string>

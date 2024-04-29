@@ -16,9 +16,6 @@ namespace SpaceInfo.Application.DailyInfoService.Dtos
         public string? MediaType { get; set; }
         public string? Title { get; set; }
         public string? Url { get; set; }
-        public DateTime InsertedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public DateTime DeletedDate { get; set; }
-        public bool IsDeleted { get; set; }
+   
     }
 }

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { DailyInfoModel } from '../../../models/daily-info-model';
+import { DailyInfoResponseModel } from '../../../models/daily-info/daily-info-response-model';
 import { WithChildren } from '../../../_metronic/helpers';
 
 type Props = {
-    dailyinfo?: DailyInfoModel
+    dailyinfo?: DailyInfoResponseModel
 }
 
 const DailyInfoComponent: FC<Props & WithChildren> = ({ dailyinfo }) => {
@@ -14,8 +14,8 @@ const DailyInfoComponent: FC<Props & WithChildren> = ({ dailyinfo }) => {
                     <div className="d-flex align-items-center mb-5">
                         <div className="d-flex align-items-center flex-grow-1">
                             <div className="d-flex flex-column">
-                                <a href="#" className="text-gray-900 text-hover-primary fs-6 fw-bold">{dailyinfo?.DateTime.toString()}</a>
-                                <span className="text-gray-500 fw-bold">{dailyinfo?.Title}</span>
+                                <a href="#" className="text-gray-900 text-hover-primary fs-6 fw-bold">{dailyinfo?.date.toString()}</a>
+                                <span className="text-gray-500 fw-bold">{dailyinfo?.title}</span>
                             </div>
                         </div>
                         <div className="my-0">
@@ -74,11 +74,10 @@ const DailyInfoComponent: FC<Props & WithChildren> = ({ dailyinfo }) => {
                         </div>
                     </div>
                     <div className="mb-5">
-                        <div className="bgi-no-repeat rounded mb-6" style={{ backgroundImage: `url(${dailyinfo?.HdUrl})`, backgroundSize: "cover", width: "1850px", height: "700px" }}></div>
-                        <div className="text-gray-2000 mb-5">{dailyinfo?.Explanation}</div>
-                        <div className="text-gray-2000 position-absolute bottom-0 end-0">{dailyinfo?.CopyRight}</div>
+                        <div className="bgi-no-repeat rounded mb-6" style={{ backgroundImage: `url(${dailyinfo?.hdurl})`, backgroundSize: "cover", height: "700px" }}></div>
+                        <div className="text-gray-2000 mb-5">{dailyinfo?.explanation}</div>
+                        <div className="text-gray-2000 position-absolute bottom-0 end-0">{dailyinfo?.copyright ? dailyinfo.copyright : "CopyRight"} </div>
                     </div>
-                    <div className="separator mb-4"></div>
                 </div>
             </div>
         </>
