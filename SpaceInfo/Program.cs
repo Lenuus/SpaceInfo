@@ -4,6 +4,7 @@ using SpaceInfo.Persistence;
 using SpaceInfo.Persistence.Interceptors;
 using SpaceInfo.Application.DailyInfoService;
 using SpaceInfo.Application.CacheService;
+using SpaceInfo.Application.SearchService;
 
 
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<UpdateAuditInterceptor>();
 builder.Services.AddControllers();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddTransient<IDailyInfoService, DailyInfoService>();
+builder.Services.AddTransient<INasaSearchService, NasaSearchService>();
 builder.Services.AddSingleton<ICacheService, InMemoryCache>();
 
 

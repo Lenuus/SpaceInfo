@@ -27,8 +27,8 @@ namespace SpaceInfo.NasaService.Services
         public async Task<ServiceResponse<List<DailyInfoModel>>> GetDailyInfos(DateTime date)
         {
             var infos = new List<DailyInfoModel>();
-            DateTime startDate = date.AddDays(-10);
-            DateTime endDate = startDate.AddDays(10);
+            DateTime startDate = date.AddDays(-100);
+            DateTime endDate = startDate.AddDays(100);
             using (var client = new HttpClient())
             {
                 var apiKey = _configuration["NasaUserId"];
@@ -85,30 +85,30 @@ namespace SpaceInfo.NasaService.Services
             }
         }
 
-        public async Task<ServiceResponse<List<SearchItemDataModel>>> GetSearchMaterials(string search)
-        {
-            var nasaSearchCollection = new List<SearchItemDataModel>();
-            var apiUrl = $"https://images-api.nasa.gov/search?q={search}";
+        //public async Task<ServiceResponse<List<SearchItemDataModel>>> GetSearchMaterials(string search)
+        //{
+        //    var nasaSearchCollection = new List<SearchItemDataModel>();
+        //    var apiUrl = $"https://images-api.nasa.gov/search?q={search}";
 
-            using (var client = new HttpClient())
-            {
-                using (var response = await client.GetAsync(apiUrl))
-                {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return new ServiceResponse<List<SearchItemDataModel>>(null, false, "Cannot be reached");
-                    }
-                    var content = await response.Content.ReadAsStringAsync();
-                    var searchItems = System.Text.Json.JsonSerializer.Deserialize<NasaSearchResponseModel>(content);
+        //    using (var client = new HttpClient())
+        //    {
+        //        using (var response = await client.GetAsync(apiUrl))
+        //        {
+        //            if (!response.IsSuccessStatusCode)
+        //            {
+        //                return new ServiceResponse<List<SearchItemDataModel>>(null, false, "Cannot be reached");
+        //            }
+        //            var content = await response.Content.ReadAsStringAsync();
+        //            var searchItems = System.Text.Json.JsonSerializer.Deserialize<NasaSearchResponseModel>(content);
 
-                    nasaSearchCollection = searchItems.Collection.SearchItems
-                                  .SelectMany(item => item.SearchItemData)
-                                  .ToList();
-                }
-            }
+        //            nasaSearchCollection = searchItems.Collection.SearchItems
+        //                          .SelectMany(item => item.SearchItemData)
+        //                          .ToList();
+        //        }
+        //    }
 
-            return new ServiceResponse<List<SearchItemDataModel>>(nasaSearchCollection, true, "Success");
-        }
+        //    return new ServiceResponse<List<SearchItemDataModel>>(nasaSearchCollection, true, "Success");
+        //}
 
     }
 }

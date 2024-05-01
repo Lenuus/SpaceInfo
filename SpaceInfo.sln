@@ -9,15 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInfo.Domain", "SpaceIn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInfo.Application", "SpaceInfo.Application\SpaceInfo.Application.csproj", "{85B954FA-C185-4040-A0BD-B883466EBBA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInfo.Persistence", "SpaceInfo.Persistence\SpaceInfo.Persistence.csproj", "{8499999C-3FB0-4FE7-8575-1C618988DCDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInfo.Persistence", "SpaceInfo.Persistence\SpaceInfo.Persistence.csproj", "{8499999C-3FB0-4FE7-8575-1C618988DCDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalServices", "ExternalServices", "{0C77324C-00BD-441C-ACCA-B9F09B1BEA71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInfo.NasaService", "SpaceInfo.NasaService\SpaceInfo.NasaService.csproj", "{EEBEB956-6086-4B95-B7F3-8D4F8DF5F1B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInfo.NasaService", "SpaceInfo.NasaService\SpaceInfo.NasaService.csproj", "{EEBEB956-6086-4B95-B7F3-8D4F8DF5F1B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{9AF6B7D5-72EC-41A9-B43B-7F4D68322728}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInfo.Jobs", "SpaceInfo.Jobs\SpaceInfo.Jobs.csproj", "{25F72C0E-6EDD-4AFC-B40F-5D89DC9D908D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInfo.Jobs", "SpaceInfo.Jobs\SpaceInfo.Jobs.csproj", "{25F72C0E-6EDD-4AFC-B40F-5D89DC9D908D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInfo.Common", "SpaceInfo.Common\SpaceInfo.Common.csproj", "{3BFF572B-21DF-46F5-ABBE-109F31DEFC93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{25F72C0E-6EDD-4AFC-B40F-5D89DC9D908D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F72C0E-6EDD-4AFC-B40F-5D89DC9D908D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25F72C0E-6EDD-4AFC-B40F-5D89DC9D908D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFF572B-21DF-46F5-ABBE-109F31DEFC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFF572B-21DF-46F5-ABBE-109F31DEFC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFF572B-21DF-46F5-ABBE-109F31DEFC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFF572B-21DF-46F5-ABBE-109F31DEFC93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

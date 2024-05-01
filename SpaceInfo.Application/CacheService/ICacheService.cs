@@ -8,7 +8,7 @@ namespace SpaceInfo.Application.CacheService
 {
     public interface ICacheService
     {
-        T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class;
+        T GetOrSet<T>(string cacheKey, Func<T> getItemCallback, DateTime Date, int timeForDaysk) where T : class;
         T Get<T>(string cacheKey) where T : class;
 
     }

@@ -1,4 +1,4 @@
 export class PagedRequestModel {
-    public PageIndex: number = 0;
-    public PageSize: number = 20;
+    public pageIndex: number = 0;
+    public pageSize: number = 20;
 }

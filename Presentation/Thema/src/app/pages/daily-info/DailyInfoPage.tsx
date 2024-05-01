@@ -11,18 +11,23 @@ import { resolve } from 'path'
 
 const DailyInfoPage = () => {
   const intl = useIntl()
-  const [DailyInfo, SetDailyInfo] = useState();
+  const [dataReady, setDataReady] = useState<boolean>(false);
+  const [DailyInfo, SetDailyInfo] = useState<DailyInfoResponseModel>();
   useEffect(() => {
+    setDataReady(false);
     getDailyInfo().then((resolve) => {
       SetDailyInfo(resolve.data.data)
     });
+    const timeout = setTimeout(() => {
+      setDataReady(true);
+    }, 2000);
   }, [])
 
   return (
     <>
       <PageTitle breadcrumbs={[]}>Daily Info</PageTitle>
-      <div className='row'>
-          <DailyInfoComponent dailyinfo={DailyInfo} />
+      <div className={!dataReady ? "row modal-body overlay overlay-block" : "row "}>
+        <DailyInfoComponent dailyinfo={DailyInfo} />
       </div>
     </>
   )

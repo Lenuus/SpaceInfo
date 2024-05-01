@@ -42,6 +42,7 @@ namespace SpaceInfo.Application.DailyInfoService
         {
             var dailyInfos = await _dailyInfoRepository.GetAll().ToListAsync().ConfigureAwait(false);
 
+
             if (dailyInfos == null || dailyInfos.Count == 0)
             {
                 return new ServiceResponse<DailyInfoDto>(null, false, "Daily info list is empty.");
@@ -51,6 +52,14 @@ namespace SpaceInfo.Application.DailyInfoService
             var randomIndex = random.Next(0, dailyInfos.Count);
             var randomDailyInfo = dailyInfos[randomIndex];
             var key = $"key_{randomDailyInfo.Title}";
+            var currentKey = "currentKey";
+
+            var currenctCacheData = _cacheService.Get<DailyInfoDto>(currentKey);
+            if (currenctCacheData != null)
+            {
+                return new ServiceResponse<DailyInfoDto>(currenctCacheData, true, string.Empty);
+            }
+
             DailyInfoDto existedCacheData = null;
             var i = 0;
 
@@ -72,7 +81,10 @@ namespace SpaceInfo.Application.DailyInfoService
                 MediaType = randomDailyInfo.MediaType,
             };
 
-            var cachedata = _cacheService.GetOrSet(key, () => selectedInfo);
+
+            var cacheDailyData = _cacheService.GetOrSet(key, () => selectedInfo, DateTime.Now, 45);
+            var usingData = _cacheService.GetOrSet(currentKey, () => selectedInfo, DateTime.Now, 1);
+
             return new ServiceResponse<DailyInfoDto>(selectedInfo, true, string.Empty);
         }
     }

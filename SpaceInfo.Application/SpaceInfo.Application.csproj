@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SpaceInfo.Common\SpaceInfo.Common.csproj" />
     <ProjectReference Include="..\SpaceInfo.Domain\SpaceInfo.Domain.csproj" />
     <ProjectReference Include="..\SpaceInfo.Persistence\SpaceInfo.Persistence.csproj" />
   </ItemGroup>

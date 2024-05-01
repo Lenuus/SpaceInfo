@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SpaceInfo.NasaService.Models.NasaSearch
 {
-    public class NasaSearchResponseModel
+    public class NasaSearchResponseDto
     {
         [JsonPropertyName("collection")]
-        public NasaSearchCollectionModel Collection { get; set; }
+        public NasaSearchCollectionDto Collection { get; set; }
     }
 }

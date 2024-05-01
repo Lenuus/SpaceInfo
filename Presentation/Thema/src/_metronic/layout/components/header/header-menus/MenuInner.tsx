@@ -10,7 +10,7 @@ export function MenuInner() {
       <MenuItem icon='burger-menu' to='/Dashboard' title='Main Page' />
       <MenuItem icon='calendar' to='/daily-info' title='Daily Info' />
       <MenuItem icon='rocket' to='/apps/user-management/users' title='Near Objects' />
-      <MenuItem icon='question-2' to='/apps/user-management/users' title='Curious Page' />
+      <MenuItem icon='question-2' to='/search-nasa' title='Curious Page' />
     </>
   )
 }

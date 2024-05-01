@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpaceInfo.NasaService.Models.NasaSearch
 {
-    public class SearchItemDataModel
+    public class SearchItemDataDto
     {
         [JsonPropertyName("center")]
         public string Center { get; set; }

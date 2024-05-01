@@ -14,7 +14,7 @@ const FooterWrapper = () => {
         <div
           className={clsx(
             'app-container',
-            config.app.footer.container === 'fixed' ? 'container-xxl' : 'container-fluid',
+            config.app.footer.container === 'fluid' ? 'container-xxl' : 'container-fluid',
             config.app.footer.containerClass
           )}
         >

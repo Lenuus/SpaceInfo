@@ -14,6 +14,6 @@ namespace SpaceInfo.NasaService.Services
     {
         Task<ServiceResponse<List<DailyInfoModel>>> GetDailyInfos(DateTime date);
         Task<ServiceResponse<List<NearEarthObjectModel>>> GetNearObjects(DateTime startDate, DateTime endDate);
-        Task<ServiceResponse<List<SearchItemDataModel>>> GetSearchMaterials(string search);
+        //Task<ServiceResponse<List<SearchItemDataModel>>> GetSearchMaterials(string search);
     }
 }
