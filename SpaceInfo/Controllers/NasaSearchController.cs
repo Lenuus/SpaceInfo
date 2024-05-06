@@ -21,7 +21,17 @@ namespace SpaceInfo.Controllers
                 return BadRequest(response);
             }
             return Ok(response);
+        }
 
+        [HttpPost("get-nasa-item-images")]
+        public async Task<IActionResult> GetNasaImages([FromBody] string request)
+        {
+            var response = await _searchService.GetDataImages(request).ConfigureAwait(false);
+            if (!response.IsSuccesfull)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
     }
 }

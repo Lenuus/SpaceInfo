@@ -12,5 +12,6 @@ namespace SpaceInfo.Application.SearchService
     public interface INasaSearchService
     {
         Task<ServiceResponse<PagedResponseDto<SearchItemDataDto>>> GetSearchMaterials(NasaSearchRequestDto search);
+        Task<ServiceResponse<NasaSearchResponseDto>> GetDataImages(string nasaId);
     }
 }

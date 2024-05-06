@@ -4,6 +4,7 @@ import { PageTitle } from '../../../_metronic/layout/core';
 import { getSearchItems } from '../../api/search-nasa/search-nasa-api';
 import { NasaSearchRequestModel } from '../../../models/nasa-search/nasa-search-request-model';
 import { SearchItemResponseDataModel } from '../../../models/nasa-search/search-item-data-response-model';
+import { WithChildren } from '../../../_metronic/helpers';
 
 export const SearchNasaPage: FC = () => {
   const intl = useIntl();
@@ -13,15 +14,39 @@ export const SearchNasaPage: FC = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [currentSearchQuery, setCurrentSearchQuery] = useState<string>("");
   const [searchData, setSearchData] = useState<SearchItemResponseDataModel[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean[]>(Array(searchData.length).fill(false));
   const [dataReady, setDataReady] = useState<boolean>(false);
+  const [openedItem, setOpenedItem] = useState<string>();
 
-  const toggleMenu = (index: number) => {
-    const newIsOpen = Array(searchData.length).fill(false);
-    newIsOpen[index] = !isOpen[index];
-
-    setIsOpen(newIsOpen);
-  };
+  const renderPaginationButtons = () => {
+    var buttons = [];
+    if (totalPage > 10) {
+      var firstIndex = currentPageIndex > 5 ? currentPageIndex - 4 : 0;
+      var lastIndex = currentPageIndex > 5 ? currentPageIndex + 4 > totalPage ? totalPage : currentPageIndex + 4 : 10;
+      for (var i = firstIndex; i < lastIndex; i++) {
+        var pageName = "page_" + i;
+        buttons.push(
+          <>
+            <li key={pageName} className={"page-item " + pageName + " " + (i == currentPageIndex && "active")}><button className="page-link" value={i} onClick={(e) => {
+              setCurrentPageIndex(parseInt(e.currentTarget.value));
+              setRefreshData(true);
+            }}>{(i + 1)}</button></li>
+          </>);
+      }
+    }
+    else {
+      for (var i = 0; i < totalPage; i++) {
+        var pageName = "page_" + i;
+        buttons.push(
+          <>
+            <li key={pageName} className={"page-item " + (i == currentPageIndex && "active")}><button className="page-link" value={i} onClick={(e) => {
+              setCurrentPageIndex(parseInt(e.currentTarget.value));
+              setRefreshData(true);
+            }}>{(i + 1)}</button></li>
+          </>);
+      }
+    }
+    return (<>{buttons}</>);
+  }
 
   const search = async () => {
     try {
@@ -34,7 +59,6 @@ export const SearchNasaPage: FC = () => {
       setSearchData(response.data.data.data);
       setTotalPage(response.data.data.totalPage);
       setRefreshData(false);
-      setIsOpen(Array(response.data.data.data.length).fill(false));
       setDataReady(true);
     } catch (error) {
       console.error("Error while fetching data:", error);
@@ -69,24 +93,59 @@ export const SearchNasaPage: FC = () => {
             </div>
             <div>
               {searchData.map((item, index) => (
-                <div key={index} onClick={() => toggleMenu(index)} className="my-2">
-                  <div className='container border'>
-                    <h1 className={isOpen[index] ? 'text-danger' : 'text-primary'}>{item.title}</h1>
-                  </div>
-                  {isOpen[index] && (
-                    <div className="card bg-light shadow-sm">
-                      <div className="card-body card-scroll h-200px">
-                        <h2 className='text-success'>{item.description}</h2>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <SearchItemComponent key={item.nasa_id} searchItem={item} isOpen={openedItem == item.nasa_id} onClicked={setOpenedItem} />
               ))}
             </div>
           </div>
+        </div>
+        <div>
+          <ul className="pagination">
+            <li className={"page-item previous" + (currentPageIndex == 0 ? "disabled" : "")}>
+              <button className="page-link" onClick={() => {
+                if (currentPageIndex > 1) {
+                  setCurrentPageIndex(currentPageIndex - 1);
+                  setRefreshData(true);
+                }
+              }}>
+                <i className="previous"></i>
+              </button>
+            </li>
+            {renderPaginationButtons()}
+            <li className={"page-item next" + (currentPageIndex == totalPage ? "disabled" : "")} onClick={() => {
+              if (currentPageIndex < totalPage) {
+                setCurrentPageIndex(currentPageIndex + 1);
+                setRefreshData(true);
+              }
+            }}>
+              <button className="page-link"><i className="next"></i></button>
+            </li>
+          </ul>
         </div>
       </div>
 
     </>
   );
 };
+
+type Props = {
+  searchItem: SearchItemResponseDataModel,
+  onClicked: any,
+  isOpen: boolean
+}
+
+const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, isOpen }) => {
+  return (
+    <div key={searchItem.nasa_id} className="my-2" onClick={() => { onClicked(searchItem.nasa_id); }}>
+      <div className='container border'>
+        <h1 className={isOpen ? 'text-danger' : 'text-primary'}>{searchItem.title}</h1>
+      </div>
+      {isOpen && <>
+        <div className="card bg-light shadow-sm">
+          <div className="card-body card-scroll h-200px">
+            <h2 className='text-success'>{searchItem.description}</h2>
+          </div>
+        </div>
+      </>}
+    </div>
+  );
+}
