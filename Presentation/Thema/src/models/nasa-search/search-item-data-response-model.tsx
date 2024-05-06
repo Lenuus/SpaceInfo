@@ -1,4 +1,4 @@
-class SearchItemDataModel {
+class SearchItemResponseDataModel {
     public center: string = "";
     public date_created: Date = new Date();
     public description: string = "";
@@ -8,4 +8,4 @@ class SearchItemDataModel {
     public title: string = "";
 }
 
-export { SearchItemDataModel }
+export { SearchItemResponseDataModel }

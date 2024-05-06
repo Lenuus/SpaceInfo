@@ -91,7 +91,7 @@ export const SearchNasaPage: FC = () => {
                 }}>Search</button>
               </div>
             </div>
-            <div>
+            <div className="accordion accordion-icon-collapse" id="kt_accordion_3">
               {searchData.map((item, index) => (
                 <SearchItemComponent key={item.nasa_id} searchItem={item} isOpen={openedItem == item.nasa_id} onClicked={setOpenedItem} />
               ))}
@@ -135,17 +135,56 @@ type Props = {
 
 const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, isOpen }) => {
   return (
-    <div key={searchItem.nasa_id} className="my-2" onClick={() => { onClicked(searchItem.nasa_id); }}>
-      <div className='container border'>
-        <h1 className={isOpen ? 'text-danger' : 'text-primary'}>{searchItem.title}</h1>
+    <div key={searchItem.nasa_id} className="mb-5">
+      <div className="accordion-header py-3 d-flex" data-bs-toggle="collapse" data-bs-target={`${searchItem.nasa_id}`} onClick={() => { !isOpen ? onClicked(searchItem.nasa_id) : onClicked(""); }}>
+        <span className="accordion-icon">
+          <i className="ki-duotone ki-plus-square fs-3 accordion-icon-off"><span className="path1"></span><span className="path2"></span><span className="path3"></span></i>
+          <i className="ki-duotone ki-minus-square fs-3 accordion-icon-on"><span className="path1"></span><span className="path2"></span><span className="path3"></span></i>
+        </span>
+        <h3 className="fs-4 fw-semibold mb-0 ms-4">{searchItem.title}</h3>
       </div>
-      {isOpen && <>
-        <div className="card bg-light shadow-sm">
-          <div className="card-body card-scroll h-200px">
-            <h2 className='text-success'>{searchItem.description}</h2>
+      <div id={`${searchItem.nasa_id}`} className={`fs-6 collapse ps-10${isOpen ? ' show' : ''}`} data-bs-parent="#kt_accordion_3">
+        {searchItem.description}
+        <div className='row'>
+          <i className="ki-duotone ki-abstract-6 text-muted fs-2x" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_1">
+          </i>
+        </div>
+
+      </div>
+      <div className="modal fade" tabIndex={-1} id="kt_modal_scrollable_1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Modal title</h5>
+
+              <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal">
+                <i className="ki-duotone ki-cross fs-2x"><span className="path1"></span><span className="path2"></span></i>
+              </div>
+            </div>
+
+            <div className="modal-body" style={{ minHeight: "2500px" }}>
+              <p>{searchItem.title}</p>
+            </div>
+
+            <div className="modal-footer">
+              <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary">Save changes</button>
+            </div>
           </div>
         </div>
-      </>}
+      </div>
     </div>
+    /* <div key={searchItem.nasa_id} className="my-2" onClick={() => { onClicked(searchItem.nasa_id); }}>
+       <div className='container border'>
+         <h1 className={isOpen ? 'text-danger' : 'text-primary'}>{searchItem.title}</h1>
+       </div>
+       {isOpen && <>
+         <div className="card bg-light shadow-sm">
+           <div className="card-body card-scroll h-200px">
+             <h2 className='text-success'>{searchItem.description}</h2>
+           </div>
+         </div>
+       </>}
+     </div>*/
   );
 }
