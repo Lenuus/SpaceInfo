@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { PageTitle } from '../../../_metronic/layout/core';
-import { getSearchItems } from '../../api/search-nasa/search-nasa-api';
+import { getSearchItems, getSearchedItemsImage } from '../../api/search-nasa/search-nasa-api';
 import { NasaSearchRequestModel } from '../../../models/nasa-search/nasa-search-request-model';
 import { SearchItemResponseDataModel } from '../../../models/nasa-search/search-item-data-response-model';
 import { WithChildren } from '../../../_metronic/helpers';
+import { ImageItemsModel } from '../../../models/nasa-search/nasa-image-items-model';
+import { DataImageRequestModel } from '../../../models/nasa-search/data-image-request-model';
 
 export const SearchNasaPage: FC = () => {
   const intl = useIntl();
@@ -16,6 +18,7 @@ export const SearchNasaPage: FC = () => {
   const [searchData, setSearchData] = useState<SearchItemResponseDataModel[]>([]);
   const [dataReady, setDataReady] = useState<boolean>(false);
   const [openedItem, setOpenedItem] = useState<string>();
+
 
   const renderPaginationButtons = () => {
     var buttons = [];
@@ -47,6 +50,7 @@ export const SearchNasaPage: FC = () => {
     }
     return (<>{buttons}</>);
   }
+
 
   const search = async () => {
     try {
@@ -134,6 +138,19 @@ type Props = {
 }
 
 const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, isOpen }) => {
+  const [media, setMediaItem] = useState<ImageItemsModel[]>([]);
+
+  const getMedias = async () => {
+    try {
+      const requestData = new DataImageRequestModel();
+      requestData.NasaId = searchItem.nasa_id;
+      const response = await getSearchedItemsImage(requestData);
+      setMediaItem(response.data.data.collection.items);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div key={searchItem.nasa_id} className="mb-5">
       <div className="accordion-header py-3 d-flex" data-bs-toggle="collapse" data-bs-target={`${searchItem.nasa_id}`} onClick={() => { !isOpen ? onClicked(searchItem.nasa_id) : onClicked(""); }}>
@@ -146,26 +163,24 @@ const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, 
       <div id={`${searchItem.nasa_id}`} className={`fs-6 collapse ps-10${isOpen ? ' show' : ''}`} data-bs-parent="#kt_accordion_3">
         {searchItem.description}
         <div className='row'>
-          <i className="ki-duotone ki-abstract-6 text-muted fs-2x" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_1">
+          <i className="ki-duotone ki-abstract-6 text-muted fs-2x" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_1" onClick={getMedias}>
           </i>
         </div>
-
       </div>
       <div className="modal fade" tabIndex={-1} id="kt_modal_scrollable_1">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Modal title</h5>
-
               <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal">
                 <i className="ki-duotone ki-cross fs-2x"><span className="path1"></span><span className="path2"></span></i>
               </div>
             </div>
-
             <div className="modal-body" style={{ minHeight: "2500px" }}>
-              <p>{searchItem.title}</p>
+              {media.map((item, index) => (
+                <img key={index} src={item.href} alt={`Image ${index}`} />
+              ))}
             </div>
-
             <div className="modal-footer">
               <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
               <button type="button" className="btn btn-primary">Save changes</button>
@@ -174,6 +189,8 @@ const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, 
         </div>
       </div>
     </div>
+
+
     /* <div key={searchItem.nasa_id} className="my-2" onClick={() => { onClicked(searchItem.nasa_id); }}>
        <div className='container border'>
          <h1 className={isOpen ? 'text-danger' : 'text-primary'}>{searchItem.title}</h1>

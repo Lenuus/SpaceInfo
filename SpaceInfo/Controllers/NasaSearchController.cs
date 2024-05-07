@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpaceInfo.Application.SearchService;
+using SpaceInfo.Application.SearchService.Dtos;
 using SpaceInfo.Application.SearchService.NasaSearch;
 
 namespace SpaceInfo.Controllers
@@ -23,8 +24,8 @@ namespace SpaceInfo.Controllers
             return Ok(response);
         }
 
-        [HttpPost("get-nasa-item-images")]
-        public async Task<IActionResult> GetNasaImages([FromBody] string request)
+        [HttpPost("nasa-item-images")]
+        public async Task<IActionResult> GetNasaImages([FromBody] DataImageRequestDto request)
         {
             var response = await _searchService.GetDataImages(request).ConfigureAwait(false);
             if (!response.IsSuccesfull)

@@ -8,13 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpaceInfo.Application.SearchService.Dtos;
 
 namespace SpaceInfo.Application.SearchService
 {
     public class NasaSearchService : INasaSearchService
     {
 
-        public async Task<ServiceResponse<PagedResponseDto<SearchItemDataDto>>> GetSearchMaterials(NasaSearchRequestDto search)
+        public async Task<ServiceResponse<PagedResponseDto<NasaSearchItemDataDto>>> GetSearchMaterials(NasaSearchRequestDto search)
         {
             if (string.IsNullOrEmpty(search.Search))
             {
@@ -28,7 +29,7 @@ namespace SpaceInfo.Application.SearchService
                 {
                     if (!response.IsSuccessStatusCode)
                     {
-                        return new ServiceResponse<PagedResponseDto<SearchItemDataDto>>(null, false, "Cannot be reached");
+                        return new ServiceResponse<PagedResponseDto<NasaSearchItemDataDto>>(null, false, "Cannot be reached");
                     }
                     var content = await response.Content.ReadAsStringAsync();
                     var searchItems = System.Text.Json.JsonSerializer.Deserialize<NasaSearchResponseDto>(content);
@@ -40,16 +41,14 @@ namespace SpaceInfo.Application.SearchService
                     var pagedList = await nasaSearchCollection
                         .ToPagedListAsync(search.PageSize, search.PageIndex);
 
-                    return new ServiceResponse<PagedResponseDto<SearchItemDataDto>>(pagedList, true, "Success");
+                    return new ServiceResponse<PagedResponseDto<NasaSearchItemDataDto>>(pagedList, true, "Success");
                 }
             }
         }
 
-        public async Task<ServiceResponse<NasaSearchResponseDto>> GetDataImages(string nasaId)
+        public async Task<ServiceResponse<NasaImageResponseDto>> GetDataImages(DataImageRequestDto request)
         {
-            nasaId = "as11-40-5874";
-
-            var apiUrl = $"https://images-api.nasa.gov/asset/{nasaId}";
+            var apiUrl = $"https://images-api.nasa.gov/asset/{request.NasaId}";
 
             using (var client = new HttpClient())
             {
@@ -57,12 +56,12 @@ namespace SpaceInfo.Application.SearchService
                 {
                     if (!response.IsSuccessStatusCode)
                     {
-                        return new ServiceResponse<NasaSearchResponseDto>(null, false, "Cannot be reached");
+                        return new ServiceResponse<NasaImageResponseDto>(null, false, "Cannot be reached");
                     }
                     var content = await response.Content.ReadAsStringAsync();
-                    var itemsImages = System.Text.Json.JsonSerializer.Deserialize<NasaSearchResponseDto>(content);
+                    var itemsImages = System.Text.Json.JsonSerializer.Deserialize<NasaImageResponseDto>(content);
 
-                    return new ServiceResponse<NasaSearchResponseDto>(itemsImages, false, "Cannot be reached");
+                    return new ServiceResponse<NasaImageResponseDto>(itemsImages, true, string.Empty);
                 }
             }
         }

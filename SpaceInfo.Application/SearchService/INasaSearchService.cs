@@ -1,4 +1,5 @@
-﻿using SpaceInfo.Application.SearchService.NasaSearch;
+﻿using SpaceInfo.Application.SearchService.Dtos;
+using SpaceInfo.Application.SearchService.NasaSearch;
 using SpaceInfo.NasaService.Models.NasaSearch;
 using SpaceInfosTracker.Common.Dtos;
 using System;
@@ -11,7 +12,7 @@ namespace SpaceInfo.Application.SearchService
 {
     public interface INasaSearchService
     {
-        Task<ServiceResponse<PagedResponseDto<SearchItemDataDto>>> GetSearchMaterials(NasaSearchRequestDto search);
-        Task<ServiceResponse<NasaSearchResponseDto>> GetDataImages(string nasaId);
+        Task<ServiceResponse<PagedResponseDto<NasaSearchItemDataDto>>> GetSearchMaterials(NasaSearchRequestDto search);
+        Task<ServiceResponse<NasaImageResponseDto>> GetDataImages(DataImageRequestDto request);
     }
 }

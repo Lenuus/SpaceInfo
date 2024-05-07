@@ -5,14 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace SpaceInfo.NasaService.Models.NasaSearch
+namespace SpaceInfo.Application.SearchService.Dtos
 {
-    public class SearchItemsDto
+    public class NasaMediaItemsDto
     {
         [JsonPropertyName("href")]
         public string Href { get; set; }
-
-        [JsonPropertyName("data")]
-        public List<SearchItemDataDto> SearchItemData { get; set; }
     }
 }

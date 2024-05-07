@@ -1,14 +1,16 @@
-﻿using System;
+﻿using SpaceInfo.NasaService.Models.NasaSearch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace SpaceInfo.NasaService.Models.NasaSearch
+namespace SpaceInfo.Application.SearchService.Dtos
 {
-    public class NasaSearchCollectionDto
+    public class NasaSearchCollectionImageDto
     {
+
         [JsonPropertyName("version")]
         public string Version { get; set; }
 
@@ -16,6 +18,6 @@ namespace SpaceInfo.NasaService.Models.NasaSearch
         public string Href { get; set; }
 
         [JsonPropertyName("items")]
-        public List<NasaSearchItemsDto> SearchItems { get; set; }
+        public List<NasaMediaItemsDto> MediaItems { get; set; }
     }
 }

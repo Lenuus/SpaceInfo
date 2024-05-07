@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace SpaceInfo.NasaService.Models.NasaSearch
 {
-    public class NasaSearchCollectionDto
+    public class NasaSearchItemsDto
     {
-        [JsonPropertyName("version")]
-        public string Version { get; set; }
-
         [JsonPropertyName("href")]
         public string Href { get; set; }
 
-        [JsonPropertyName("items")]
-        public List<NasaSearchItemsDto> SearchItems { get; set; }
+        [JsonPropertyName("data")]
+        public List<NasaSearchItemDataDto> SearchItemData { get; set; }
     }
 }
