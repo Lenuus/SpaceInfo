@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <>
       <div className='text-gray-900 order-2 position-start' style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">any
+        <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">
           <span style={{ marginRight: '10px' }}>Click and go Nasa Page for more information</span>
           <img
             alt='Logo'

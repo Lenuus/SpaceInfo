@@ -7,6 +7,7 @@ import { SearchItemResponseDataModel } from '../../../models/nasa-search/search-
 import { WithChildren } from '../../../_metronic/helpers';
 import { ImageItemsModel } from '../../../models/nasa-search/nasa-image-items-model';
 import { DataImageRequestModel } from '../../../models/nasa-search/data-image-request-model';
+import { auto } from '@popperjs/core';
 
 export const SearchNasaPage: FC = () => {
   const intl = useIntl();
@@ -160,14 +161,14 @@ const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, 
         </span>
         <h3 className="fs-4 fw-semibold mb-0 ms-4">{searchItem.title}</h3>
       </div>
-      <div id={`${searchItem.nasa_id}`} className={`fs-6 collapse ps-10${isOpen ? ' show' : ''}`} data-bs-parent="#kt_accordion_3">
+      <div id={`item_${searchItem.nasa_id}`} className={`fs-6 collapse ps-10${isOpen ? ' show' : ''}`} data-bs-parent="#kt_accordion_3">
         {searchItem.description}
         <div className='row'>
-          <i className="ki-duotone ki-abstract-6 text-muted fs-2x" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_1" onClick={getMedias}>
+          <i className="ki-duotone ki-abstract-6 text-muted fs-2x" data-bs-toggle="modal" data-bs-target={`#kt_modal_scrollable_${searchItem.nasa_id}`} onClick={getMedias}>
           </i>
         </div>
       </div>
-      <div className="modal fade" tabIndex={-1} id="kt_modal_scrollable_1">
+      <div className="modal fade" tabIndex={-1} id={`kt_modal_scrollable_${searchItem.nasa_id}`}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -176,10 +177,24 @@ const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, 
                 <i className="ki-duotone ki-cross fs-2x"><span className="path1"></span><span className="path2"></span></i>
               </div>
             </div>
-            <div className="modal-body" style={{ minHeight: "2500px" }}>
-              {media.map((item, index) => (
-                <img key={index} src={item.href} alt={`Image ${index}`} />
-              ))}
+            <div className="modal-body" style={{ minHeight: auto }}>
+              <div id={`kt_carousel_1_carousel_${searchItem.nasa_id}`} className="carousel carousel-custom slide" data-bs-ride="carousel" data-bs-interval="8000">
+                <div className="d-flex align-items-center justify-content-between flex-wrap">
+                  <span className="fs-4 fw-bold pe-2">{searchItem.title}</span>
+                  <ol className="p-0 m-0 carousel-indicators carousel-indicators-dots">
+                    {media.filter(item => item.href.includes("jpg")).map((item, index) => (
+                      <li key={index} data-bs-target={`#kt_carousel_1_carousel_${searchItem.nasa_id}`} data-bs-slide-to={index} className={index === 0 ? 'ms-1 active' : ""}></li>
+                    ))}
+                  </ol>
+                </div>
+                <div className="carousel-inner pt-8 ">
+                  {media.filter(item => item.href.includes("jpg")).map((item, index) => (
+                    <div key={index} className={`carousel-item${index === 0 ? ' active' : ''}`}>
+                      <img src={item.href} alt={`Image ${index}`} style={{ objectFit: 'cover', width: '100%', height: 'auto', display: 'block', margin: '0 auto' }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -189,8 +204,6 @@ const SearchItemComponent: FC<Props & WithChildren> = ({ searchItem, onClicked, 
         </div>
       </div>
     </div>
-
-
     /* <div key={searchItem.nasa_id} className="my-2" onClick={() => { onClicked(searchItem.nasa_id); }}>
        <div className='container border'>
          <h1 className={isOpen ? 'text-danger' : 'text-primary'}>{searchItem.title}</h1>
